@@ -7,16 +7,25 @@ from datetime import datetime
 class BaseModel:
     """ Define a BaseModel class """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Initilize a new instance of BaseModel class
+        Args:
+            args (tuple): Unused argument
+            kwargs (dict): 
         """
-        # assign unique id to the instance
-        self.id = str(uuid4())
-        # Setting the creation time of the instance to the current time
-        self.created_at = datetime.now()
-        # Setting the updated time of the instance to the current time
-        self.updated_at = datetime.now()
+        if kwargs:
+            for key, value in kwargs.items():
+                if key == 'created_at' or key == 'updated_at':
+                    setattr(self, key, datetime.strptime(
+                        value, '%Y-%m-%dT%H:%M:%S.%f'))
+                    continue
+                if key != '__class__':
+                    setattr(self, key, value)
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """
