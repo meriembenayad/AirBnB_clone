@@ -2,6 +2,7 @@
 """ Import uuid & datetime modules """
 from uuid import uuid4
 from datetime import datetime
+import models
 
 
 class BaseModel:
@@ -12,7 +13,7 @@ class BaseModel:
         Initilize a new instance of BaseModel class
         Args:
             args (tuple): Unused argument
-            kwargs (dict): 
+            kwargs (dict):
         """
         if kwargs:
             for key, value in kwargs.items():
@@ -26,18 +27,21 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            models.storage.new(self)
 
     def __str__(self):
         """
         String representation of the BaseModel instance.
         """
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(
+            self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
         """
         Method to update the 'updated_at' attribute to the current time
         """
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """
