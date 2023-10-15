@@ -55,7 +55,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """
-             Prints the string representation of an instance based on the class name and id.
+             Prints the string representation of an instance,
+             based on the class name and id.
              Ex: $ show BaseModel 1234-1234-1234.
              Usage: show <class name> <id>
         """
@@ -125,8 +126,9 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, arg):
         """
             Updates an instance based on the class name and id,
-            by adding or updating attribute (save the change into the JSON file).
-            Usage: update <class name> <id> <attribute name> "<attribute value>"
+            by adding or updating attribute.
+            Usage: update <class name> <id> \
+                <attribute name> "<attribute value>"
         """
         objects = storage.all()
         args = arg.split(" ")
@@ -154,7 +156,7 @@ class HBNBCommand(cmd.Cmd):
 
     def default(self, line):
         """
-            Method called on an input line when the command prefix is not recognized.
+            Method called on input when the command prefix is not recognized.
             In this case it will be used to handle:
                 - <class name>.all()
                 - <class name>.count()
