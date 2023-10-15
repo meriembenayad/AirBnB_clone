@@ -152,6 +152,18 @@ class HBNBCommand(cmd.Cmd):
             setattr(obj, args[2], args[3].lstrip('"').rstrip('"'))
         storage.save()
 
+    def default(self, line):
+        """
+            Method called on an input line when the command prefix is not recognized.
+            In this case it will be used to handle <class name>.all() commands.
+        """
+        split_line = line.split(".")
+        if len(split_line) == 2:
+            cls_name = split_line[0]
+            method = split_line[1]
+            if method == "all()":
+                self.do_all(cls_name)
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
