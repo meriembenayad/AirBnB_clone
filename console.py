@@ -155,7 +155,9 @@ class HBNBCommand(cmd.Cmd):
     def default(self, line):
         """
             Method called on an input line when the command prefix is not recognized.
-            In this case it will be used to handle <class name>.all() commands.
+            In this case it will be used to handle:
+                - <class name>.all()
+                - <class name>.count()
         """
         split_line = line.split(".")
         if len(split_line) == 2:
@@ -163,6 +165,23 @@ class HBNBCommand(cmd.Cmd):
             method = split_line[1]
             if method == "all()":
                 self.do_all(cls_name)
+            elif method == "count()":
+                self.do_count(cls_name)
+
+    def do_count(self, arg):
+        """
+            Prints numbers of instances based on the class name.
+            Usage: <class name>.count()
+        """
+        class_name = arg
+        if class_name not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        objects = storage.all()
+        count = 0
+        for key in objects.keys():
+            if key.startswith(class_name + "."):
+                count += 1
+        print(count)
 
 
 if __name__ == '__main__':
