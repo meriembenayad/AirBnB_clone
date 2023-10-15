@@ -179,6 +179,8 @@ class HBNBCommand(cmd.Cmd):
             self.do_count(cls_name)
         elif method == "show":
             self.do_show(cls_name + " " + arg)
+        elif method == "destroy":
+            self.do_destroy(cls_name + " " + arg)
 
     def do_count(self, arg):
         """
