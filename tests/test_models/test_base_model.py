@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """Module for test BaseModel class"""
 import unittest
-from models.base_model import BaseModel
+from datetime import datetime
+import json
 
 
 class TestBaseModel(unittest.TestCase):
@@ -40,9 +41,9 @@ class TestBaseModel(unittest.TestCase):
         model_types = {
             "my_number": int,
             "name": str,
-            "updated_at": datetime.datetime,
+            "updated_at": datetime,
             "id": str,
-            "created_at": datetime.datetime
+            "created_at": datetime
         }
         for key, value in model_types.items():
             with self.subTest(key=key, value=value):
