@@ -14,7 +14,7 @@ class FileStorage:
 
     def all(self):
         """ Returns the dictionary __objects """
-        return FileStorage.__objects
+        return self.__objects
 
     def new(self, obj):
         """
@@ -23,7 +23,7 @@ class FileStorage:
         """
         if obj:
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
-            FileStorage.__objects[key] = obj
+            self.__objects[key] = obj
 
     def save(self):
         """ Serializes __objects to the JSON file (path: __file_path) """
@@ -31,7 +31,7 @@ class FileStorage:
         for key, value in FileStorage.__objects.items():
             new_dict[key] = value.to_dict().copy()
 
-        with open(FileStorage.__file_path, mode="w", encoding="utf-8") as my_file:
+        with open(self.__file_path, mode="w", encoding="utf-8") as my_file:
             json.dump(new_dict, my_file)
 
     def reload(self):
@@ -42,7 +42,7 @@ class FileStorage:
             If the file doesn’t exist, no exception should be raised)
         """
         try:
-            with open(FileStorage.__file_path, mode="r", encoding="utf-8") as my_file:
+            with open(self.__file_path, mode="r", encoding="utf-8") as my_file:
                 dict_obj = json.load(my_file)
 
             for obj in dict_obj.values():
