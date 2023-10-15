@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Command Interpreter """
 import cmd
+import shlex
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -131,27 +132,36 @@ class HBNBCommand(cmd.Cmd):
                 <attribute name> "<attribute value>"
         """
         objects = storage.all()
-        args = arg.split(" ")
+        args = shlex.split(arg)
 
         if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in HBNBCommand.__classes:
+            return
+
+        if args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        elif len(args) == 1:
+            return
+
+        if len(args) == 1:
             print("** instance id missing **")
-        elif len(args) == 2:
+            return
+
+        key_find = args[0] + '.' + args[1]
+        obj = objects.get(key_find, None)
+
+        if not obj:
+            print("** no instance found **")
+            return
+
+        if len(args) == 2:
             print("** attribute name missing **")
-        elif len(args) == 3:
+            return
+
+        if len(args) == 3:
             print("** value missing **")
-        else:
-            key_find = args[0] + '.' + args[1]
-            obj = objects.get(key_find, None)
+            return
 
-            if not obj:
-                print("** no instance found **")
-                return
-
-            setattr(obj, args[2], args[3].lstrip('"').rstrip('"'))
+        setattr(obj, args[2], args[3].lstrip('"').rstrip('"'))
         storage.save()
 
     def default(self, line):
