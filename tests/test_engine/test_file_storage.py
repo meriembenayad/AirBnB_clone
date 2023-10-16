@@ -63,17 +63,16 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(dict, type(self.storage.all()))
 
     def test_new(self):
-        """ Test new User """
-        obj = self.storage.all()
-        self.use.id = 1234
-        self.use.name = "Julien"
-        self.storage.new(self.use)
-        key = "{}.{}".format(self.use.__class__.__name__, self.use.id)
-        self.assertIsNotNone(obj[key])
+        """Test the new method"""
+        my_model = BaseModel()
+        self.storage.new(my_model)
+        key = f"BaseModel.{my_model.id}"
+        all_objs = self.storage.all()
+        self.assertIn(key, all_objs.keys())
+        self.assertEqual(all_objs[key], my_model)
 
     def test_check_json_loading(self):
         """ Test load of json file """
-
         with open("file.json") as my_file:
             dic = json.load(my_file)
             self.assertEqual(isinstance(dic, dict), True)
@@ -84,6 +83,26 @@ class TestFileStorage(unittest.TestCase):
         """
         with open("file.json") as my_file:
             self.assertTrue(len(my_file.read()) > 0)
+
+    def test_save(self):
+        """ Test save() method """
+        my_model = BaseModel()
+        self.storage.new(my_model)
+        self.storage.save()
+        with open(self.file_path, 'r') as my_file:
+            content = my_file.read()
+            key = f"BaseModel.{my_model.id}"
+            self.assertIn(key, content)
+
+    def test_reload(self):
+        """ Test reload() """
+        my_model = BaseModel()
+        self.storage.new(my_model)
+        self.storage.save()
+        self.storage.reload()
+        all_objs = self.storage.all()
+        key = f"BaseModel.{my_model.id}"
+        self.assertIn(key, all_objs.keys())
 
 
 if __name__ == '__main__':

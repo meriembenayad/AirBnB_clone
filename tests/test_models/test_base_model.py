@@ -7,7 +7,7 @@ from models.base_model import BaseModel
 
 
 class TestBaseModel(unittest.TestCase):
-    """Test for BaseModel class"""
+    """ Test for BaseModel class """
 
     def test_first_task(self):
         """Test creation of class and to_dict"""
@@ -30,6 +30,14 @@ class TestBaseModel(unittest.TestCase):
             with self.subTest(key=key, value=value):
                 self.assertIn(key, my_model_json)
                 self.assertIs(type(my_model_json[key]), value)
+
+    def test_init(self):
+        """ Test __init__ method of the BaseModel class """
+        my_model = BaseModel()
+        self.assertIsInstance(my_model, BaseModel)
+        self.assertIsInstance(my_model.id, str)
+        self.assertIsInstance(my_model.created_at, datetime)
+        self.assertIsInstance(my_model.updated_at, datetime)
 
     def test_base_types(self):
         """Testing dict model"""
