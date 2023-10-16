@@ -1,11 +1,22 @@
 #!/usr/bin/python3
 """ Unitest test console """
 import unittest
+from unittest.mock import patch
+from io import StringIO
+import console
 import pycodestyle
+from models.engine.file_storage import FileStorage
+from models.base_model import BaseModel
 
 
 class TestConsole(unittest.TestCase):
     """ Test HBNBCommand class """
+
+    def setUp(self):
+        """Set up test cases"""
+        self.storage = FileStorage()
+        self.storage.reload()
+        self.storage._FileStorage__objects = {}
 
     def test_pycodestyle(self):
         """Test that the code conforms to pycodestyle"""
@@ -20,3 +31,7 @@ class TestConsole(unittest.TestCase):
             console.HBNBCommand().onecmd('quit')
             output = f.getvalue().strip()
             self.assertEqual(output, '')
+
+
+if __name__ == '__main__':
+    unittest.main()

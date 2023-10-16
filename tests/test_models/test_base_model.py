@@ -3,6 +3,7 @@
 import unittest
 from datetime import datetime
 import json
+from models.base_model import BaseModel
 
 
 class TestBaseModel(unittest.TestCase):
@@ -51,7 +52,7 @@ class TestBaseModel(unittest.TestCase):
                 self.assertIs(type(second_model.__dict__[key]), value)
 
     def test_uuid(self):
-        """testing differents uuid"""
+        """ testing differents uuid """
         model = BaseModel()
         model_2 = BaseModel()
         self.assertNotEqual(model.id, model_2.id)

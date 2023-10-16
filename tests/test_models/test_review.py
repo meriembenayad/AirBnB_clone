@@ -1,10 +1,6 @@
 #!/usr/bin/python3
 """Module for test Review class"""
 import unittest
-import json
-import pep8
-import datetime
-
 from models.review import Review
 from models.base_model import BaseModel
 

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Tests for class fileStorage """
 import unittest
+import os
 import json
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
